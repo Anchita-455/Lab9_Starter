@@ -102,6 +102,83 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    errorBtns[0].addEventListener('click', () => {
+      console.log("log message to console");
+    });
+
+    errorBtns[1].addEventListener('click', () => {
+      console.error("Error cannot do this");
+    });
+
+    errorBtns[2].addEventListener('click', () => {
+      console.count("button clicked");
+    });
+
+    errorBtns[3].addEventListener('click', () => {
+      console.warn("warning message");
+    });
+
+    errorBtns[4].addEventListener('click', () => {
+      console.assert(1 === 2, 'Assertion failed: 1 is not equal to 2');
+      console.assert(1 === 1, 'This will NOT show — assertion passed');
+    });
+
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document.querySelector('form'));
+    });
+
+    errorBtns[7].addEventListener('click', () => {
+        console.dirxml(document.querySelector('form'));
+    });
+
+    errorBtns[8].addEventListener('click', () => {
+      console.group('Expanded Group');
+      console.log('Inside expanded group');
+      console.info('Info inside expanded group');
+      console.warn('Warn inside expanded group');
+      console.error('Error inside expanded group');
+
+      console.groupCollapsed('Collapsed Group');
+      console.log('Inside collapsed group');
+      console.info('Info inside collapsed group');
+      console.warn('Warn inside collapsed group');
+      console.error('Error inside collapsed group');
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+      console.groupEnd();
+      console.log('Now outside all groups');
+    });
+
+    errorBtns[10].addEventListener('click', () => {
+      console.table([
+        {name: 'Chess', genre: "stategy" },
+        { name: 'UNO', genre: "card game" },
+        { name: 'Monopoly', genre: "classic" },
+      ]);
+    });
+
+    errorBtns[11].addEventListener('click', () => {
+      console.time('myTimer');
+      console.log('Timer started!');
+    });
+
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd('myTimer');
+    });
+
+    errorBtns[13].addEventListener('click', () => {
+      function inner() { console.trace('inner function trace'); }
+      function outer() { inner(); }
+      outer();
+    });
+
   </script>
 </body>
 
