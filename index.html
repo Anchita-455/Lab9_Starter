@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+
+    <script>
+      window.TrackJS && TrackJS.install({ 
+        token: "ded22876f1b04792a983fa74e453c2f3"
+      });
+  </script>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,20 +97,65 @@
   </main>
 
   <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+     class DivisionByZeroError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = 'DivisionByZeroError';
+    }
+  }
+
+  class InvalidInputError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = 'InvalidInputError';
+    }
+  }
+
+    let form = document.querySelector('form');
+    
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const output = document.querySelector('output');
+      const firstNum = document.querySelector('#first-num').value;
+      const secondNum = document.querySelector('#second-num').value;
+      const operator = document.querySelector('#operator').value;
+
+      try {
+        if (isNaN(firstNum) || isNaN(secondNum) || firstNum === '' || secondNum === '') {
+          throw new InvalidInputError('Both inputs must be numbers');
+        }
+        if (operator === '/' && secondNum == 0) {
+          throw new DivisionByZeroError('Cannot divide by zero');
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (e) {
+        if (e instanceof DivisionByZeroError) {
+          output.innerHTML = `Math Error: ${e.message}`;
+        } else if (e instanceof InvalidInputError) {
+          output.innerHTML = `Input Error: ${e.message}`;
+        } else {
+          output.innerHTML = `Unknown Error: ${e.message}`;
+        }
+        console.error(e.name, e.message);
+      } finally {
+        console.log('Calculation attempted');
+      }
+    });
+
+    window.onerror = function(message, source, lineno, colno, error) {
+    console.log('Global error caught!');
+    console.log('Message:', message);
+    console.log('Source:', source);
+    console.log('Line:', lineno, 'Column:', colno);
+    console.error('Error object:', error);
+    return true; 
+  };
 
     errorBtns[0].addEventListener('click', () => {
       console.log("log message to console");
@@ -177,6 +231,10 @@
       function inner() { console.trace('inner function trace'); }
       function outer() { inner(); }
       outer();
+    });
+
+    errorBtns[14].addEventListener('click', () => {
+      null.property;
     });
 
   </script>
